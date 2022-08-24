@@ -4,11 +4,19 @@ const { gql } = require("apollo-server");
 const { buildSubgraphSchema } = require("@apollo/subgraph");
 const typeDefs = gql`
   extend schema
-    @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+    @link(
+      url: "https://specs.apollo.dev/federation/v2.0"
+      import: ["@key", "@external"]
+    )
 
   type Author @key(fields: "id") {
     id: ID!
     name: String
+    books: BookList
+  }
+
+  extend type BookList @key(fields: "authorId") {
+    authorId: Int! @external
   }
 
   type Query {

@@ -1,8 +1,11 @@
 # GraphQL Federation
+
 This reposotory represents my learning abount GraphQL Federation with Apollo.
 
 ### Books API `./server-one`
-#### typeDefs definitions 
+
+#### typeDefs definitions
+
 ```graphql
 extend schema
   @link(
@@ -26,6 +29,7 @@ type Query {
 ```
 
 #### Resolvers
+
 ```javascript
 Query: {
   books: () => books,
@@ -38,7 +42,9 @@ Book: {
 ```
 
 ### Author API `./server-two`
-#### typeDefs definitions 
+
+#### typeDefs definitions
+
 ```graphql
 extend schema
 extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
@@ -54,6 +60,7 @@ type Query {
 ```
 
 #### Resolvers
+
 ```javascript
 Query: {
   authors: () => authors,
@@ -66,17 +73,11 @@ Author: {
 ```
 
 ### API Gateway `./gateway`
+
 #### Calls
-Books query
-```graphql
-query BooksQuery {
-  books {
-    title
-    authorId
-  }
-}
-```
+
 Author query
+
 ```graphql
 query AuthorQuery {
   authors {
@@ -85,7 +86,36 @@ query AuthorQuery {
   }
 }
 ```
+
+Author with Book list query
+
+```graphql
+query AuthorWithListOfBook {
+authors {
+  id
+  name
+  books {
+    nodes {
+      id
+      title
+    }
+  }
+}
+```
+
+Books query
+
+```graphql
+query BooksQuery {
+  books {
+    title
+    authorId
+  }
+}
+```
+
 Books with author query
+
 ```graphql
 query BooksWithAuthorQuery {
   books {
@@ -100,23 +130,21 @@ query BooksWithAuthorQuery {
 ```
 
 #### Comands
+
 - Start all services and API's
+
 ```bash
 yarn start
 ```
+
 - Start ONLY Books API
+
 ```bash
 yarn start:one
 ```
+
 - Start ONLY Author API
+
 ```bash
 yarn start:two
 ```
-
-
-
-
-
-
-
-

@@ -8,13 +8,19 @@ const typeDefs = gql`
   extend schema
     @link(
       url: "https://specs.apollo.dev/federation/v2.0"
-      import: ["@key", "@external"]
+      import: ["@key", "@external", "@shareable"]
     )
 
   type Book @key(fields: "authorId") {
+    id: ID!
     title: String
-    authorId: Int
+    authorId: Int!
     author: Author
+  }
+
+  type BookList @key(fields: "authorId") {
+    authorId: Int! @shareable
+    nodes: [Book]
   }
 
   extend type Author @key(fields: "id") {

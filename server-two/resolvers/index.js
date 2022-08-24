@@ -8,13 +8,18 @@ const authors = [
     id: 2,
   },
 ];
+
 module.exports = {
   Query: {
     authors: () => authors,
   },
+
   Author: {
-    __resolveReference(object) {
+    __resolveReference: (object) => {
       return authors.find((user) => user.id == object.id);
+    },
+    books: (author) => {
+      return { __typename: "BookList", authorId: author.id };
     },
   },
 };
